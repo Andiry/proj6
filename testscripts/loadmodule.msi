@@ -1,0 +1,12 @@
+#!/bin/sh
+module="expdrv"
+device="explorer"
+mode="664"
+
+rm -f /dev/${device}
+
+/sbin/insmod -f ../module/expdrv.ko enable_msi=1
+
+major=`cat /proc/devices | awk "\\$2==\"$device\" {print \\$1}"`
+mknod /dev/${device} c $major 0
+chmod $mode /dev/${device}
